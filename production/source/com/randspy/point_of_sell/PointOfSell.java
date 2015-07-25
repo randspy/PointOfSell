@@ -3,31 +3,27 @@ package com.randspy.point_of_sell;
 import java.util.Optional;
 
 public class PointOfSell {
-    private String message = "";
+    private Display display;
     private BarcodeRepository barcodeRepository;
 
-    public PointOfSell(BarcodeRepository barcodeRepository) {
-
+    public PointOfSell(BarcodeRepository barcodeRepository, Display display) {
         this.barcodeRepository = barcodeRepository;
-    }
-
-    public String displayLastText() {
-        return message;
+        this.display = display;
     }
 
     public void onBarcode(String barcode) {
         if (barcode.isEmpty()) {
-            message = "No input code";
+            display.send("No input code");
         }
         else{
 
             Optional<ProductItem> item = barcodeRepository.getProductItem(barcode);
 
             if (item.isPresent()) {
-                message = item.get().getPrice();
+                display.send(item.get().getPrice());
             }
             else {
-                message = "Invalid code";
+                display.send("Invalid code");
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.randspy.test.point_of_sell;
 import com.randspy.point_of_sell.BarcodeRepository;
+import com.randspy.point_of_sell.Display;
 import com.randspy.point_of_sell.PointOfSell;
 import com.randspy.point_of_sell.ProductItem;
 import org.junit.Before;
@@ -9,12 +10,13 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
-public class ShowPriceOnDisplay {
+public class ShowPriceOnDisplayTest {
 
     private PointOfSell pointOfSell;
-    private BarcodeRepositoryStub barcodeRepository;
+    private BarcodeRepositorySpy barcodeRepository;
+    private DisplaySpy display;
 
-    private class BarcodeRepositoryStub extends BarcodeRepository {
+    private class BarcodeRepositorySpy extends BarcodeRepository {
 
         public ProductItem productItem;
         private String barcode;
@@ -25,17 +27,28 @@ public class ShowPriceOnDisplay {
         }
     }
 
+    private class DisplaySpy extends Display {
+        public String receivedText;
+
+        @Override
+        public void send(String message) {
+            receivedText = message;
+        }
+    }
+
     @Before
     public void setUp() throws Exception {
-        barcodeRepository = new BarcodeRepositoryStub();
-        pointOfSell = new PointOfSell(barcodeRepository);
+        barcodeRepository = new BarcodeRepositorySpy();
+        display = new DisplaySpy();
+        pointOfSell = new PointOfSell(barcodeRepository, display);
     }
 
     @Test
     public void noInput() throws Exception {
         pointOfSell.onBarcode("");
-        assertEquals("No input code", pointOfSell.displayLastText());
+        assertEquals("No input code", display.receivedText);
     }
+
 
     @Test
     public void invalidInputCode() throws Exception {
@@ -43,14 +56,9 @@ public class ShowPriceOnDisplay {
         pointOfSell.onBarcode(barcode);
 
         assertEquals(barcode, barcodeRepository.barcode);
-        assertEquals("Invalid code", pointOfSell.displayLastText());
+        assertEquals("Invalid code", display.receivedText);
     }
 
-
-    @Test
-    public void whenOnBarcodeNeverCalledDisplayShouldStayEmpty() throws Exception {
-        assertEquals("", pointOfSell.displayLastText());
-    }
 
     @Test
     public void validInputCode() throws Exception {
@@ -61,6 +69,6 @@ public class ShowPriceOnDisplay {
         pointOfSell.onBarcode(barcode);
 
         assertEquals(barcode, barcodeRepository.barcode);
-        assertEquals(price, pointOfSell.displayLastText());
+        assertEquals(price, display.receivedText);
     }
 }
