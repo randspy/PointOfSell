@@ -44,8 +44,20 @@ public class ShowPriceOnDisplayTest {
     }
 
     @Test
-    public void noInput() throws Exception {
+    public void emptyInput() throws Exception {
         pointOfSell.onBarcode("");
+        assertEquals("No input code", display.receivedText);
+    }
+
+    @Test
+    public void newLineInput() throws Exception {
+        pointOfSell.onBarcode("\n");
+        assertEquals("No input code", display.receivedText);
+    }
+
+    @Test
+    public void carriageReturnInput() throws Exception {
+        pointOfSell.onBarcode("\n\r");
         assertEquals("No input code", display.receivedText);
     }
 
@@ -63,7 +75,7 @@ public class ShowPriceOnDisplayTest {
     @Test
     public void validInputCode() throws Exception {
         String price = "$9.99";
-        String barcode = "123456789";
+        String barcode = "123456789\n";
 
         barcodeRepository.productItem = new ProductItem(price);
         pointOfSell.onBarcode(barcode);

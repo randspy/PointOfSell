@@ -12,7 +12,7 @@ public class PointOfSell {
     }
 
     public void onBarcode(String barcode) {
-        if (barcode.isEmpty()) {
+        if (barcode.isEmpty() || barcode.equals("\n") || barcode.equals("\n\r")) {
             display.send("No input code");
         }
         else{
