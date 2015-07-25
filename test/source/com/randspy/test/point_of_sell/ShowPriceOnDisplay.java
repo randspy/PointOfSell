@@ -23,7 +23,6 @@ public class ShowPriceOnDisplay {
             this.barcode = barcode;
             return productItem != null ? Optional.of(productItem) : Optional.ofNullable(null);
         }
-
     }
 
     @Before
@@ -40,7 +39,10 @@ public class ShowPriceOnDisplay {
 
     @Test
     public void invalidInputCode() throws Exception {
-        pointOfSell.onBarcode("xyz");
+        String barcode = "xyz";
+        pointOfSell.onBarcode(barcode);
+
+        assertEquals(barcode, barcodeRepository.barcode);
         assertEquals("Invalid code", pointOfSell.displayLastText());
     }
 
@@ -52,9 +54,13 @@ public class ShowPriceOnDisplay {
 
     @Test
     public void validInputCode() throws Exception {
-        barcodeRepository.productItem = new ProductItem("$9.99");
-        pointOfSell.onBarcode("123456789");
-        assertEquals("123456789", barcodeRepository.barcode);
-        assertEquals("$9.99", pointOfSell.displayLastText());
+        String price = "$9.99";
+        String barcode = "123456789";
+
+        barcodeRepository.productItem = new ProductItem(price);
+        pointOfSell.onBarcode(barcode);
+
+        assertEquals(barcode, barcodeRepository.barcode);
+        assertEquals(price, pointOfSell.displayLastText());
     }
 }
