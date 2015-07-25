@@ -1,4 +1,4 @@
-package com.randspy.point_of_sell;
+package com.randspy.pos;
 
 public class ProductItem {
     private String price;

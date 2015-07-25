@@ -1,8 +1,8 @@
-package com.randspy.test.point_of_sell;
-import com.randspy.point_of_sell.BarcodeRepository;
-import com.randspy.point_of_sell.Display;
-import com.randspy.point_of_sell.PointOfSell;
-import com.randspy.point_of_sell.ProductItem;
+package com.randspy.test.pos;
+import com.randspy.pos.BarcodeRepository;
+import com.randspy.pos.Display;
+import com.randspy.pos.PointOfSell;
+import com.randspy.pos.ProductItem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,6 +46,12 @@ public class ShowPriceOnDisplayTest {
     @Test
     public void emptyInput() throws Exception {
         pointOfSell.onBarcode("");
+        assertEquals("No input code", display.receivedText);
+    }
+
+    @Test
+    public void nullInput() throws Exception {
+        pointOfSell.onBarcode(null);
         assertEquals("No input code", display.receivedText);
     }
 

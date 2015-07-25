@@ -1,4 +1,4 @@
-package com.randspy.point_of_sell;
+package com.randspy.pos;
 
 import java.util.Optional;
 
@@ -29,6 +29,9 @@ public class PointOfSell {
     }
 
     private boolean isBarCodeEmpty(String barcode) {
-        return barcode.isEmpty() || barcode.equals("\n") || barcode.equals("\n\r");
+        return  barcode == null ||
+                barcode.isEmpty() ||
+                barcode.equals("\n") ||
+                barcode.equals("\n\r");
     }
 }
