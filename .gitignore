@@ -1,0 +1,7 @@
+#ignore intellij idea artefacts
+.iws
+.idea/workspace.xml
+.idea/tasks.xml
+
+#ignore build output
+*/out
