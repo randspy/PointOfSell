@@ -9,6 +9,14 @@ public class ShowPriceOnDisplay {
     @Test
     public void noInput() throws Exception {
         PointOfSell pointOfSell = new PointOfSell();
-        assertEquals("No input value", pointOfSell.displayLastText());
+        pointOfSell.onBarcode("");
+        assertEquals("No input code", pointOfSell.displayLastText());
+    }
+
+    @Test
+    public void invalidInput() throws Exception {
+        PointOfSell pointOfSell = new PointOfSell();
+        pointOfSell.onBarcode("xyz");
+        assertEquals("Invalid code", pointOfSell.displayLastText());
     }
 }
