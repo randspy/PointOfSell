@@ -1,4 +1,3 @@
 # PointOfSell
 
-#Things to think about
-    - having class and namespace to have the same name
+Kata based on http://online-training.jbrains.ca/courses/wbitdd-01
