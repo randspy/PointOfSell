@@ -19,4 +19,11 @@ public class ShowPriceOnDisplay {
         pointOfSell.onBarcode("xyz");
         assertEquals("Invalid code", pointOfSell.displayLastText());
     }
+
+
+    @Test
+    public void whenOnBarcodeNeverCalledDisplayShouldStayEmpty() throws Exception {
+        PointOfSell pointOfSell = new PointOfSell();
+        assertEquals("", pointOfSell.displayLastText());
+    }
 }
