@@ -1,5 +1,5 @@
 package com.randspy.test.pos;
-import com.randspy.pos.BarcodeRepository;
+import com.randspy.pos.ProductCatalog;
 import com.randspy.pos.Display;
 import com.randspy.pos.PointOfSell;
 import com.randspy.pos.ProductItem;
@@ -13,10 +13,10 @@ import static org.junit.Assert.assertEquals;
 public class ShowPriceOnDisplayTest {
 
     private PointOfSell pointOfSell;
-    private BarcodeRepositorySpy barcodeRepository;
+    private ProductCatalogSpy barcodeRepository;
     private DisplaySpy display;
 
-    private class BarcodeRepositorySpy extends BarcodeRepository {
+    private class ProductCatalogSpy extends ProductCatalog {
 
         public ProductItem productItem;
         private String barcode;
@@ -38,7 +38,7 @@ public class ShowPriceOnDisplayTest {
 
     @Before
     public void setUp() throws Exception {
-        barcodeRepository = new BarcodeRepositorySpy();
+        barcodeRepository = new ProductCatalogSpy();
         display = new DisplaySpy();
         pointOfSell = new PointOfSell(barcodeRepository, display);
     }

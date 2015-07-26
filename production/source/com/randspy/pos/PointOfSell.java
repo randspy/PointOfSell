@@ -4,28 +4,28 @@ import java.util.Optional;
 
 public class PointOfSell {
     private Display display;
-    private BarcodeRepository barcodeRepository;
+    private ProductCatalog productCatalog;
 
-    public PointOfSell(BarcodeRepository barcodeRepository, Display display) {
-        this.barcodeRepository = barcodeRepository;
+    public PointOfSell(ProductCatalog productCatalog, Display display) {
+        this.productCatalog = productCatalog;
         this.display = display;
     }
 
     public void onBarcode(String barcode) {
         if (isBarCodeEmpty(barcode)) {
-            display.send("No input code");
+            display.displayMissingCode();
+            return;
         }
-        else{
 
-            Optional<ProductItem> item = barcodeRepository.getProductItem(barcode);
+        Optional<ProductItem> item = productCatalog.getProductItem(barcode);
 
-            if (item.isPresent()) {
-                display.send(item.get().getPrice());
-            }
-            else {
-                display.send("Invalid code");
-            }
+        if (item.isPresent()) {
+            display.displayPrice(item.get());
         }
+        else {
+            display.displayInvalidCode();
+        }
+
     }
 
     private boolean isBarCodeEmpty(String barcode) {
